@@ -3,51 +3,121 @@
 ---
 @charset "utf-8";
 
-// Our variables
-$base-font-family: "Fakt", serif;
-$base-font-size:   16px;
-$base-font-weight: 400;
-$small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.5;
-
 $spacing-unit:     30px;
+$text-color:       #444;
+$link-color:       #3187e1;
+$background-color: #f7f8fa;
+$selection-color: #baf1c0;
 
-$text-color:       #222;
-$background-color: #fafafa;
-$background-color-2: #eee;
-$brand-color:      #2a7ae2;
+@import "Fakt";
 
-$grey-color:       #828282;
-$grey-color-light: lighten($grey-color, 40%);
-$grey-color-dark:  darken($grey-color, 25%);
-
-// Width of the content area
-$content-width:    800px;
-
-$on-palm:          600px;
-$on-laptop:        800px;
-
-// Use media queries like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: auto;
+  min-width: 100%;
+  font-family: "Fakt", serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: $text-color;
+  background-color: $background-color;
+  background-image: radial-gradient(ellipse at center, $background-color 30%, #e1e8ed 100%);
 }
 
-// Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "Fakt",
-        "base",
-        "layout";
+.wrap {
+  width: 480px;
+  margin: 0 auto;
+  padding: 100px 20px;
+}
 
-body {
-  background-color: $background-color-2;
-  background-image: radial-gradient(ellipse at center, $background-color
-  30%,$background-color-2 100%);
+@mixin selection-shadow($color) {
+  text-shadow: .03em 0 $color, -.03em 0 $color, 0
+  .03em $color, 0 -.03em $color, .06em 0
+  $color, -.06em 0 $color, .09em 0
+  $color, -.09em 0 $color, .12em 0
+  $color, -.12em 0 $color, .15em 0
+  $color, -.15em 0 $color;
+}
+
+::selection {
+  background: $selection-color;
+}
+::-moz-selection {
+  background: $selection-color;
+}
+
+a {
+  @include selection-shadow($background-color);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+
+  &::selection {
+    @include selection-shadow($selection-color);
+  }
+
+  color: $link-color;
+  &:visited {
+    color: $link-color;
+  }
+
+  text-decoration: none;
+
+  background-image: linear-gradient($link-color, $link-color), linear-gradient($link-color, $link-color), linear-gradient($link-color, $link-color);
+  background-size: .05em 1px, .05em 1px, 1px 1px;
+  background-repeat: no-repeat, no-repeat, repeat-x;
+  background-position: 0% 90%, 100% 90%, 0% 90%;
+}
+
+.talk-list {
+  height: 0;
+  transition: height 150ms ease-in-out;
+  -webkit-transition: height 150ms ease-in-out;
+  -moz-transition: height 150ms ease-in-out;
+  overflow: hidden;
+}
+
+.talk-text {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.talk-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid $text-color;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  vertical-align: middle;
+  margin-right: 4px;
+
+  transition: transform 150ms ease-in-out;
+  -webkit-transition: transform 150ms ease-in-out;
+  -moz-transition: transform 150ms ease-in-out;
+}
+
+.talk-check {
+  display: none;
+
+  &:checked ~ .talk-list {
+    height: 176px;
+  }
+
+  &:checked ~ .talk-text {
+    .talk-arrow {
+      transform: rotate(90deg);
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+    }
+  }
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
 }
