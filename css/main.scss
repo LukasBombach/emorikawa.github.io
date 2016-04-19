@@ -7,9 +7,24 @@ $spacing-unit:     30px;
 $text-color:       #444;
 $link-color:       #3187e1;
 $background-color: #f7f8fa;
+$bg-accent-color: #e1e8ed;
 $selection-color: #baf1c0;
 
 @import "Fakt";
+
+@mixin bg-img($start-c, $start-p, $end-c, $end-p) {
+  background-image: linear-gradient(to bottom, rgba($start-c, 0) 50%, $start-c 100%), radial-gradient(ellipse at center, $start-c $start-p, $end-c $end-p);
+  background-image: -moz-linear-gradient(to bottom, rgba($start-c, 0) 50%, $start-c 100%), -moz-radial-gradient(ellipse at center, $start-c $start-p, $end-c $end-p);
+  background-image: -webkit-linear-gradient(to bottom, rgba($start-c, 0) 50%, $start-c 100%), -webkit-radial-gradient(ellipse at center, $start-c $start-p, $end-c $end-p);
+  background-repeat: no-repeat;
+}
+
+@mixin transition($args) {
+  transition: $args;
+  -webkit-transition: $args;
+  -moz-transition: $args;
+}
+
 
 html, body {
   height: 100%;
@@ -24,7 +39,7 @@ html, body {
   font-weight: 500;
   color: $text-color;
   background-color: $background-color;
-  background-image: radial-gradient(ellipse at center, $background-color 30%, #e1e8ed 100%);
+  @include bg-img($background-color, 30%, $bg-accent-color, 100%);
 }
 
 .wrap {
@@ -59,8 +74,13 @@ a {
   }
 
   color: $link-color;
+  @include transition(color 250ms);
   &:visited {
     color: $link-color;
+  }
+
+  &:hover {
+    color: darken($link-color, 15%);
   }
 
   text-decoration: none;
@@ -73,9 +93,7 @@ a {
 
 .talk-list {
   height: 0;
-  transition: height 150ms ease-in-out;
-  -webkit-transition: height 150ms ease-in-out;
-  -moz-transition: height 150ms ease-in-out;
+  @include transition(height 250ms cubic-bezier(0, 0, 1, 0));
   overflow: hidden;
 }
 
@@ -95,20 +113,20 @@ a {
   vertical-align: middle;
   margin-right: 4px;
 
-  transition: transform 150ms ease-in-out;
-  -webkit-transition: transform 150ms ease-in-out;
-  -moz-transition: transform 150ms ease-in-out;
+  @include transition(transform 250ms cubic-bezier(0, 0, 1, 0));
 }
 
 .talk-check {
   display: none;
 
   &:checked ~ .talk-list {
+    @include transition(height 250ms cubic-bezier(0, 0, 0, 1));
     height: 176px;
   }
 
   &:checked ~ .talk-text {
     .talk-arrow {
+      @include transition(transform 250ms cubic-bezier(0, 0, 0, 1));
       transform: rotate(90deg);
       -webkit-transform: rotate(90deg);
       -moz-transform: rotate(90deg);
