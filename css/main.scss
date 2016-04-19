@@ -8,7 +8,7 @@ $text-color:       #444;
 $link-color:       #3187e1;
 $background-color: #f7f8fa;
 $bg-accent-color: #e1e8ed;
-$selection-color: #baf1c0;
+$selection-color: #6280a1; //baf1c0;
 
 @import "Fakt";
 
@@ -23,6 +23,10 @@ $selection-color: #baf1c0;
   transition: $args;
   -webkit-transition: $args;
   -moz-transition: $args;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -45,7 +49,8 @@ html, body {
 }
 
 .wrap {
-  width: 480px;
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto;
   padding: 100px 20px;
 }
@@ -60,9 +65,11 @@ html, body {
 }
 
 ::selection {
+  color: $background-color;
   background: $selection-color;
 }
 ::-moz-selection {
+  color: $background-color;
   background: $selection-color;
 }
 

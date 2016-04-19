@@ -2,4 +2,27 @@
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="Evan Morikawa">
   <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
+
+  <!-- Begin social info -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@e0m">
+  <meta name="twitter:title" content="{{ page.title }}">
+  <meta name="twitter:description" content="{{ page.description }}">
+  <meta name="twitter:creator" content="@e0m">
+  <meta name="twitter:image:src" content="http://evanmorikawa.com{{ page.meta_image }}">
+  <meta name="twitter:domain" content="evanmorikawa.com">
+
+  <meta property="og:title" content="{{ page.title }}"/>
+  <meta property="og:description" content="{{ page.description }}"/>
+  <meta property="og:type" content="product"/>
+  <meta property="og:image" content="http://evanmorikawa.com{{ page.meta_image }}"/>
+
+  <!-- Google Analytics -->
+  <script>
+  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+  ga('create', 'UA-63589868-1', 'auto');
+  ga('send', 'pageview');
+  </script>
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <!-- End Google Analytics -->
 </head>
