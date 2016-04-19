@@ -1,0 +1,159 @@
+---
+layout: nowrap
+---
+
+<div class="wrap" style="padding: 20px">
+<h1>Waffle JS</h1>
+
+April 6, 2016
+
+<h2 style="font-size: 1.3em">Desktop Apps with Electron, React, &amp; Observables</h2>
+
+<p>The first video was recorded in 360&deg;. Click and drag around. The
+playback is synchronized with slides &amp; demo screencast. Click <a
+  onclick="player2.playVideo(); player2.playVideo()" href="javascript:void(0);">here</a> to start playback.</p>
+</div>
+
+<div class="player-wrap">
+  <div id="player1"></div>
+  <div id="player2"></div>
+</div>
+
+<script>
+  var resize = function() {
+    var ratio = 560/315
+    var width = document.body.clientWidth
+    var height = window.innerHeight - document.querySelector(".wrap").clientHeight;
+    var width = window.innerWidth / 2;
+    width = Math.max(Math.min(ratio * height, width), 360);
+    if (width <= 480) {
+      wrapWidth = width + 10;
+    } else {
+      wrapWidth = width * 2 + 10
+    }
+    height = Math.min((1/ratio) * width, height);
+    document.querySelector(".player-wrap").setAttribute("style", "width: "+(wrapWidth)+"px; margin: 0 auto;");
+    // document.getElementById("player1").width = width;
+    // document.getElementById("player1").height = height;
+    // document.getElementById("player2").width = width;
+    // document.getElementById("player2").height = height;
+    return {width: width, height: height}
+  }
+
+  var dims = resize();
+  document.addEventListener("resize", resize);
+
+  var tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  window.player1;
+  window.player2;
+
+
+  function onYouTubeIframeAPIReady() {
+    player1 = new YT.Player('player1', {
+      width: dims.width,
+      height: dims.height,
+      videoId: 'ob8BMM_H5OQ',
+      playerVars: {
+        autoplay: 0,
+        controls: 0
+      },
+      events: {
+        onReady: onPlayer1Ready,
+        onStateChange: onPlayer1StateChange
+      }
+    });
+    player2 = new YT.Player('player2', {
+      width: dims.width,
+      height: dims.height,
+      videoId: 'KJNDH59BmDc',
+      events: {
+        onReady: onPlayer2Ready,
+        onStateChange: onPlayer2StateChange
+      }
+    });
+  }
+
+  var player1Ready = false;
+  var player2Ready = false;
+
+  var preloading1 = false;
+  var preloading2 = false;
+
+  function onPlayer1Ready(event) {
+    player1Ready = true;
+    preloading1 = true;
+    player1.mute();
+    // $("#player1").hide();
+    player1.seekTo(1);
+  }
+
+  function onPlayer2Ready(event) {
+    player2Ready = true;
+  }
+
+  function onPlayer1StateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+      if (preloading1) {
+          player1.pauseVideo();
+          player1.seekTo(0);
+          player1.unMute(); // Comment this after test
+          // $("#player1").show();
+          preloading1 = false;
+
+          player2Ready = true;
+          preloading2 = true;
+          player2.mute();
+          //$( "#player2" ).hide();
+          player2.seekTo(63);
+      } else player2.playVideo();
+    } else if (event.data == YT.PlayerState.PAUSED) {
+      if (!preloading1) player2.pauseVideo();
+    } else if (event.data == YT.PlayerState.BUFFERING) {
+      if (!preloading1) {
+        player2.pauseVideo();
+      }
+    } else if (event.data == YT.PlayerState.CUED) {
+      if (!preloading1) player2.pauseVideo();
+    } else if (event.data == YT.PlayerState.ENDED) {
+      player2.stopVideo();
+    }
+  }
+
+  function onPlayer2StateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+      if (preloading2) {
+        //prompt("2");
+        player2.pauseVideo();
+        player2.seekTo(63);
+        player2.unMute();
+        preloading2 = false;
+        // $("#player2").show(50, function() {
+        //     //player2.playVideo();
+        // });
+      } else player1.playVideo();
+    } else if (event.data == YT.PlayerState.PAUSED) {
+      if ( !preloading1 && !preloading2) player1.pauseVideo();
+    } else if (event.data == YT.PlayerState.BUFFERING) {
+      if (!preloading2) {
+        player1.pauseVideo();
+        //player1.seekTo(... // Correct the offset here
+      }
+      player2.playVideo();
+    } else if (event.data == YT.PlayerState.CUED) {
+      if (!preloading2) player1.pauseVideo();
+
+    } else if (event.data == YT.PlayerState.ENDED) {
+      player1.stopVideo();
+    }
+  }
+
+  function stopVideo() {
+    player1.stopVideo();
+    player2.stopVideo();
+  }
+</script>
