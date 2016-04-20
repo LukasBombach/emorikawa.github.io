@@ -10,7 +10,11 @@ $background-color: #f7f8fa;
 $bg-accent-color: #e1e8ed;
 $selection-color: #6280a1; //baf1c0;
 
-@import "Fakt";
+// @import "IdealSansBold";     // 700
+@import "IdealSansSemiBold"; // 600
+@import "IdealSansMedium";   // 500
+@import "IdealSansBook";     // 400
+// @import "IdealSansLight";    // 300
 
 @mixin bg-img($start-c, $start-p, $end-c, $end-p) {
   background-image: linear-gradient(to bottom, rgba($start-c, 0) 50%, $start-c 100%), radial-gradient(ellipse at center, $start-c $start-p, $end-c $end-p);
@@ -34,18 +38,40 @@ html {
 }
 
 html, body {
+  font-family: "Ideal Sans A", "Ideal Sans B", "Fakt", serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+
   width: 100%;
   margin: 0;
   padding: 0;
   min-height: 100%;
   min-width: 100%;
-  font-family: "Fakt", serif;
-  font-size: 16px;
-  line-height: 1.5;
-  font-weight: 500;
+
   color: $text-color;
   background-color: $background-color;
   @include bg-img($background-color, 30%, $bg-accent-color, 100%);
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 28px;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  word-spacing: 0.27rem;
+}
+h2 {
+  font-weight: 500;
+}
+h3 {
+  font-weight: 600;
+}
+
+strong, em b, {
+  font-weight: 600;
 }
 
 .wrap {
@@ -75,7 +101,7 @@ html, body {
 
 a {
   @include selection-shadow($background-color);
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.2px;
 
   &::selection {
