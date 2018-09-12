@@ -156,7 +156,7 @@ a {
 
   &:checked ~ .talk-list {
     @include transition(height 250ms cubic-bezier(0, 0, 0, 1));
-    height: 344px;
+    height: 484px;
   }
 
   &:checked ~ .talk-text {
